@@ -31,13 +31,16 @@ RSpec.configure do |config|
     FakeServer.clear!
   end
 
-  config.after :each, :with_fake_server do
-    puts 'after'
-    pp @request_stub.inspect
-  end
+  # config.after :each, :with_fake_server do
+  #   puts 'after'
+  #   pp @request_stub.inspect
+  # end
 
   # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def wait_for_requests_to_finish(request_count)
+    sleep 1
+    return true
+
     Timeout.timeout(5) do
       loop do
         missing = request_count - FakeServer.requests.length
