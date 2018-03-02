@@ -21,6 +21,7 @@ module ElasticAPM
     def summarize(sql)
       self.class.cache[sql] ||=
         REGEXES.find do |regex, sig|
+	  sql = sql.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')	
           if (match = sql.match(regex))
             break format(FORMAT, sig, match[1].gsub(/["']/, ''))
           end
